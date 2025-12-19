@@ -40,7 +40,7 @@ const Header = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 relative group">
             {content.logo ? (
-              <img src={content.logo} alt="Logo" className="h-25 w-auto object-contain" />
+              <img src={content.logo} alt="Logo" className="h-15 w-auto object-fill" />
             ) : (
               <Icon name="Shield" className="text-primary" size={32} />
             )}
