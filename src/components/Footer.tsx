@@ -15,7 +15,7 @@ const Footer = ({ content, setContent, isAdminMode, setShowAuthDialog }: FooterP
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             {content.logo && (
-              <img src={content.logo} alt="Logo" className="h-8 w-auto object-contain" />
+              <img src={content.logo} alt="Logo" className="h-2 w-auto object-contain" />
             )}
           </div>
           
