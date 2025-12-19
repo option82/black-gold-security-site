@@ -26,7 +26,7 @@ const AboutServicesSection = ({
 }: AboutServicesSectionProps) => {
   return (
     <>
-      <section id="about" className="py-20 px-4 bg-card/50">
+      <section id="about" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
           {isAdminMode ? (
             <Input
@@ -35,12 +35,12 @@ const AboutServicesSection = ({
               className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16">{content.aboutTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 text-gold uppercase tracking-wider">{content.aboutTitle}</h2>
           )}
           
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {content.aboutStats.map((stat: any, index: number) => (
-              <Card key={index} className="p-8 text-center bg-background border-primary/20 hover:border-primary transition-all relative group">
+              <Card key={index} className="p-8 text-center cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('aboutStats', index)}
@@ -56,7 +56,7 @@ const AboutServicesSection = ({
                     className="text-5xl font-bold text-primary mb-4 text-center bg-transparent border-primary/30"
                   />
                 ) : (
-                  <div className="text-5xl font-bold text-primary mb-4">{stat.value}</div>
+                  <div className="text-5xl font-bold text-gold mb-4">{stat.value}</div>
                 )}
                 {isAdminMode ? (
                   <Input
@@ -94,8 +94,9 @@ const AboutServicesSection = ({
         </div>
       </section>
 
-      <section id="services" className="py-20 px-4">
-        <div className="container mx-auto">
+      <section id="services" className="py-20 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-radial from-blue-950/10 via-transparent to-transparent pointer-events-none" />
+        <div className="container mx-auto relative z-10">
           {isAdminMode ? (
             <Input
               value={content.servicesTitle}
@@ -103,7 +104,7 @@ const AboutServicesSection = ({
               className="text-4xl font-bold text-center mb-4 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-4">{content.servicesTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-4 text-gold uppercase tracking-wider">{content.servicesTitle}</h2>
           )}
           
           {isAdminMode ? (
@@ -122,7 +123,7 @@ const AboutServicesSection = ({
             {content.services.map((service: any, index: number) => (
               <Card
                 key={index}
-                className="p-6 bg-card border-primary/20 hover:border-primary transition-all hover:scale-105 duration-300 relative group"
+                className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all hover:scale-105 duration-300 relative group"
               >
                 {isAdminMode && (
                   <button
@@ -153,7 +154,9 @@ const AboutServicesSection = ({
                     </SelectContent>
                   </Select>
                 ) : (
-                  <Icon name={service.icon as any} className="text-primary mb-4" size={40} />
+                  <div className="mb-4">
+                    <Icon name={service.icon as any} className="text-gold" size={48} />
+                  </div>
                 )}
                 
                 {isAdminMode ? (

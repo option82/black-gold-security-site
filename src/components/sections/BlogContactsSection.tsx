@@ -26,7 +26,7 @@ const BlogContactsSection = ({
 }: BlogContactsSectionProps) => {
   return (
     <>
-      <section id="blog" className="py-20 px-4 bg-card/50">
+      <section id="blog" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
           {isAdminMode ? (
             <Input
@@ -35,12 +35,12 @@ const BlogContactsSection = ({
               className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16">{content.blogTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 text-gold uppercase tracking-wider">{content.blogTitle}</h2>
           )}
           
           <div className="grid md:grid-cols-3 gap-8">
             {content.blogPosts.map((post: any, index: number) => (
-              <Card key={index} className="p-6 bg-background border-primary/20 hover:border-primary transition-all cursor-pointer relative group">
+              <Card key={index} className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('blogPosts', index)}
@@ -57,7 +57,7 @@ const BlogContactsSection = ({
                     className="text-sm text-primary mb-2 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <div className="text-sm text-primary mb-2">{post.category}</div>
+                  <div className="text-sm text-gold mb-2 uppercase tracking-wide">{post.category}</div>
                 )}
                 
                 {isAdminMode ? (
@@ -94,8 +94,9 @@ const BlogContactsSection = ({
         </div>
       </section>
 
-      <section id="contacts" className="py-20 px-4">
-        <div className="container mx-auto">
+      <section id="contacts" className="py-20 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
+        <div className="container mx-auto relative z-10">
           {isAdminMode ? (
             <Input
               value={content.contactsTitle}
@@ -103,7 +104,7 @@ const BlogContactsSection = ({
               className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16">{content.contactsTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 text-gold uppercase tracking-wider">{content.contactsTitle}</h2>
           )}
           
           <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
@@ -136,7 +137,7 @@ const BlogContactsSection = ({
                       </SelectContent>
                     </Select>
                   ) : (
-                    <Icon name={contact.icon as any} className="text-primary flex-shrink-0" size={24} />
+                    <Icon name={contact.icon as any} className="text-gold flex-shrink-0" size={24} />
                   )}
                   
                   <div className="flex-1">
@@ -171,8 +172,8 @@ const BlogContactsSection = ({
               )}
             </div>
             
-            <Card className="p-6 bg-card border-primary/20">
-              <h3 className="text-xl font-bold mb-4">Напишите нам</h3>
+            <Card className="p-6 cyber-card">
+              <h3 className="text-xl font-bold mb-4 text-gold">Напишите нам</h3>
               <form className="space-y-4">
                 <Input placeholder="Ваше имя" className="bg-muted" />
                 <Input placeholder="Email" className="bg-muted" />

@@ -13,8 +13,9 @@ interface HeroSectionProps {
 
 const HeroSection = ({ content, setContent, isAdminMode }: HeroSectionProps) => {
   return (
-    <section id="home" className="pt-32 pb-20 px-4 min-h-screen flex items-center">
-      <div className="container mx-auto">
+    <section id="home" className="pt-32 pb-20 px-4 min-h-screen flex items-center tech-pattern relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-transparent to-blue-900/10 pointer-events-none" />
+      <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             {isAdminMode ? (
@@ -24,7 +25,7 @@ const HeroSection = ({ content, setContent, isAdminMode }: HeroSectionProps) => 
                 className="text-5xl lg:text-6xl font-bold leading-tight bg-muted h-32"
               />
             ) : (
-              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+              <h1 className="text-5xl lg:text-6xl font-bold leading-tight text-gold uppercase tracking-wide">
                 {content.heroTitle}
               </h1>
             )}
@@ -52,8 +53,8 @@ const HeroSection = ({ content, setContent, isAdminMode }: HeroSectionProps) => 
             </div>
           </div>
           
-          <Card className="p-8 bg-card border-primary/20 shadow-2xl animate-fade-in">
-            <h3 className="text-2xl font-bold mb-6 text-primary">Запишитесь на консультацию</h3>
+          <Card className="p-8 cyber-card shadow-2xl animate-fade-in backdrop-blur-sm">
+            <h3 className="text-2xl font-bold mb-6 text-gold">Запишитесь на консультацию</h3>
             <form className="space-y-4">
               <div>
                 <Label htmlFor="name">Имя</Label>

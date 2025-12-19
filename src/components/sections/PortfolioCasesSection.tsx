@@ -23,7 +23,7 @@ const PortfolioCasesSection = ({
 }: PortfolioCasesSectionProps) => {
   return (
     <>
-      <section id="portfolio" className="py-20 px-4 bg-card/50">
+      <section id="portfolio" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
           {isAdminMode ? (
             <Input
@@ -32,12 +32,12 @@ const PortfolioCasesSection = ({
               className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16">{content.portfolioTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 text-gold uppercase tracking-wider">{content.portfolioTitle}</h2>
           )}
           
           <div className="grid md:grid-cols-3 gap-8">
             {content.portfolio.map((item: any, index: number) => (
-              <Card key={index} className="p-6 bg-background border-primary/20 relative group">
+              <Card key={index} className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('portfolio', index)}
@@ -54,7 +54,7 @@ const PortfolioCasesSection = ({
                     className="text-3xl font-bold text-primary mb-4 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <div className="text-3xl font-bold text-primary mb-4">{item.result}</div>
+                  <div className="text-3xl font-bold text-gold mb-4">{item.result}</div>
                 )}
                 
                 {isAdminMode ? (
@@ -91,8 +91,9 @@ const PortfolioCasesSection = ({
         </div>
       </section>
 
-      <section id="cases" className="py-20 px-4">
-        <div className="container mx-auto">
+      <section id="cases" className="py-20 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
+        <div className="container mx-auto relative z-10">
           {isAdminMode ? (
             <Input
               value={content.casesTitle}
@@ -100,12 +101,12 @@ const PortfolioCasesSection = ({
               className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16">{content.casesTitle}</h2>
+            <h2 className="text-4xl font-bold text-center mb-16 text-gold uppercase tracking-wider">{content.casesTitle}</h2>
           )}
           
           <div className="max-w-4xl mx-auto space-y-8">
             {content.cases.map((caseItem: any, index: number) => (
-              <Card key={index} className="p-8 bg-card border-primary/20 relative group">
+              <Card key={index} className="p-8 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('cases', index)}
@@ -116,7 +117,7 @@ const PortfolioCasesSection = ({
                 )}
                 
                 <div className="flex items-start space-x-4">
-                  <Icon name="CheckCircle" className="text-primary flex-shrink-0" size={32} />
+                  <Icon name="CheckCircle" className="text-gold flex-shrink-0" size={32} />
                   <div className="flex-1">
                     {isAdminMode ? (
                       <Input
@@ -154,8 +155,8 @@ const PortfolioCasesSection = ({
                         </>
                       ) : (
                         <>
-                          <span className="text-primary font-semibold">{caseItem.duration}</span>
-                          <span className="text-primary font-semibold">{caseItem.result}</span>
+                          <span className="text-gold font-semibold">{caseItem.duration}</span>
+                          <span className="text-gold font-semibold">{caseItem.result}</span>
                         </>
                       )}
                     </div>

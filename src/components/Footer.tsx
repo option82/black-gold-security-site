@@ -10,7 +10,7 @@ interface FooterProps {
 
 const Footer = ({ content, setContent, isAdminMode, setShowAuthDialog }: FooterProps) => {
   return (
-    <footer className="bg-card py-8 px-4">
+    <footer className="bg-gradient-to-t from-card/50 to-transparent py-8 px-4 glow-border border-t">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
@@ -19,7 +19,7 @@ const Footer = ({ content, setContent, isAdminMode, setShowAuthDialog }: FooterP
             ) : (
               <Icon name="Shield" className="text-primary" size={24} />
             )}
-            <span className="text-lg font-bold text-primary">{content.companyName}</span>
+            <span className="text-lg font-bold text-gold tracking-wider">{content.companyName}</span>
           </div>
           
           {isAdminMode ? (
@@ -34,7 +34,7 @@ const Footer = ({ content, setContent, isAdminMode, setShowAuthDialog }: FooterP
           
           <button
             onClick={() => setShowAuthDialog(true)}
-            className="text-xs text-muted-foreground/50 hover:text-primary transition-colors mt-4 md:mt-0"
+            className="text-xs text-muted-foreground/50 hover:text-gold transition-colors mt-4 md:mt-0"
           >
             admin
           </button>

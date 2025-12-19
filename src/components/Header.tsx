@@ -33,7 +33,7 @@ const Header = ({
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+        isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-lg glow-border' : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="container mx-auto px-4 py-4">
@@ -65,7 +65,7 @@ const Header = ({
                 className="text-xl font-bold text-primary bg-transparent border-primary/30 w-48"
               />
             ) : (
-              <span className="text-xl font-bold text-primary">{content.companyName}</span>
+              <span className="text-xl font-bold text-gold tracking-wider">{content.companyName}</span>
             )}
           </div>
 
@@ -74,8 +74,8 @@ const Header = ({
               <div key={item.id} className="relative group">
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    activeSection === item.id ? 'text-primary' : 'text-muted-foreground'
+                  className={`text-sm font-medium transition-colors hover:text-gold uppercase tracking-wide ${
+                    activeSection === item.id ? 'text-gold' : 'text-muted-foreground'
                   }`}
                 >
                   {item.label}
@@ -114,8 +114,8 @@ const Header = ({
                     <button
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
-                      className={`text-left text-lg font-medium transition-colors hover:text-primary ${
-                        activeSection === item.id ? 'text-primary' : 'text-muted-foreground'
+                      className={`text-left text-lg font-medium transition-colors hover:text-gold uppercase tracking-wide ${
+                        activeSection === item.id ? 'text-gold' : 'text-muted-foreground'
                       }`}
                     >
                       {item.label}
