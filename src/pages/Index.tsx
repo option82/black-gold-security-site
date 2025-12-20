@@ -14,7 +14,7 @@ const Index = () => {
   const [authPassword, setAuthPassword] = useState("");
 
   const [content, setContent] = useState({
-    logo: "https://cdn.poehali.dev/files/photo_2025-12-18_16-02-54.png",
+    logo: "https://github.com/option82/black-gold-security-site/blob/main/photo_2025-12-18_16-02-54.png?raw=true",
     companyName: "",
     heroTitle: "Защита вашего бизнеса — наша профессия",
     heroSubtitle:
