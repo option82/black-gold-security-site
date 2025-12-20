@@ -144,7 +144,7 @@ const Index = () => {
       { icon: "Phone", title: "Телефон", value: "+7 983 252 3222" },
       { icon: "Mail", title: "Email", value: " info@zaschitabusinessa.ru " },
     ],
-    footerText: "© 2024 Защита Бизнеса. Все права защищены.",
+    footerText: "© 2026 Защита Бизнеса. Все права защищены.",
     menuItems: [
       { id: "home", label: "Главная" },
       { id: "about", label: "О компании" },
