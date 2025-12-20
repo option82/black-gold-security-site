@@ -89,9 +89,7 @@ const Header = ({
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Button size="sm" className="hidden lg:inline-flex gold-gradient text-background font-semibold">
-              Бесплатная консультация
-            </Button>
+            <Button size="sm" className="hidden lg:inline-flex gold-gradient text-background font-semibold">Консультация</Button>
             
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
