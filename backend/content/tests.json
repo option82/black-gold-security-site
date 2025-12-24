@@ -1,0 +1,41 @@
+{
+  "tests": [
+    {
+      "name": "Get all content (empty)",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Save hero section content",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "key": "hero",
+        "data": {
+          "title": "Test Title",
+          "subtitle": "Test Subtitle"
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "key": "hero"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get specific content by key",
+      "method": "GET",
+      "path": "/?key=hero",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "title": "string",
+        "subtitle": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

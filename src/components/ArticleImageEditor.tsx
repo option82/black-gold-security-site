@@ -9,6 +9,7 @@ interface ArticleImage {
   src: string;
   width: number;
   position: 'left' | 'center' | 'right';
+  floatText: boolean;
 }
 
 interface ArticleImageEditorProps {
@@ -37,7 +38,8 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
         id: Date.now().toString(),
         src: base64,
         width: 100,
-        position: 'center'
+        position: 'center',
+        floatText: false
       };
       onImagesChange([...images, newImage]);
       setUploading(false);
@@ -87,15 +89,17 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
           {images.map((image) => (
             <Card key={image.id} className="p-3 bg-muted border-primary/20">
               <div className="space-y-3">
-                <img 
-                  src={image.src} 
-                  alt="Article" 
-                  className={`rounded object-cover ${
-                    image.position === 'left' ? 'mr-auto' : 
-                    image.position === 'right' ? 'ml-auto' : 'mx-auto'
-                  }`}
-                  style={{ width: `${image.width}%` }}
-                />
+                <div className={`${
+                  image.floatText 
+                    ? (image.position === 'left' ? 'float-left mr-4 mb-2' : 'float-right ml-4 mb-2')
+                    : (image.position === 'left' ? 'mr-auto' : image.position === 'right' ? 'ml-auto' : 'mx-auto')
+                }`} style={{ width: image.floatText ? `${Math.min(image.width, 50)}%` : `${image.width}%` }}>
+                  <img 
+                    src={image.src} 
+                    alt="Article" 
+                    className="rounded object-cover w-full"
+                  />
+                </div>
                 
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
@@ -111,39 +115,58 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                     />
                   </div>
                   
-                  <div className="flex gap-1">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-1">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={image.position === 'left' ? 'default' : 'outline'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateImage(image.id, { position: 'left' });
+                        }}
+                      >
+                        <Icon name="AlignLeft" size={14} />
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={image.position === 'center' ? 'default' : 'outline'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateImage(image.id, { position: 'center' });
+                        }}
+                        disabled={image.floatText}
+                      >
+                        <Icon name="AlignCenter" size={14} />
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={image.position === 'right' ? 'default' : 'outline'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateImage(image.id, { position: 'right' });
+                        }}
+                      >
+                        <Icon name="AlignRight" size={14} />
+                      </Button>
+                    </div>
                     <Button
                       type="button"
                       size="sm"
-                      variant={image.position === 'left' ? 'default' : 'outline'}
+                      variant={image.floatText ? 'default' : 'outline'}
                       onClick={(e) => {
                         e.stopPropagation();
-                        updateImage(image.id, { position: 'left' });
+                        updateImage(image.id, { 
+                          floatText: !image.floatText,
+                          position: image.floatText ? 'center' : (image.position === 'center' ? 'left' : image.position)
+                        });
                       }}
+                      className="text-xs"
                     >
-                      <Icon name="AlignLeft" size={14} />
-                    </Button>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant={image.position === 'center' ? 'default' : 'outline'}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        updateImage(image.id, { position: 'center' });
-                      }}
-                    >
-                      <Icon name="AlignCenter" size={14} />
-                    </Button>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant={image.position === 'right' ? 'default' : 'outline'}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        updateImage(image.id, { position: 'right' });
-                      }}
-                    >
-                      <Icon name="AlignRight" size={14} />
+                      <Icon name="WrapText" size={14} className="mr-1" />
+                      Обтекание текстом
                     </Button>
                   </div>
                   

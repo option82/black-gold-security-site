@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'zaschita-business-content';
+import { contentStore } from './contentStore';
 
 export interface StoredContent {
   hero: any;
@@ -9,37 +9,32 @@ export interface StoredContent {
   lastUpdated: string;
 }
 
-export const saveContent = (content: Partial<StoredContent>): void => {
+export const saveContent = async (content: Partial<StoredContent>): Promise<void> => {
   try {
-    const existing = loadContent();
-    const updated = {
-      ...existing,
-      ...content,
-      lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    for (const [key, value] of Object.entries(content)) {
+      if (key !== 'lastUpdated') {
+        await contentStore.saveContent(key, value);
+      }
+    }
   } catch (error) {
     console.error('Failed to save content:', error);
+    throw error;
   }
 };
 
-export const loadContent = (): StoredContent | null => {
+export const loadContent = async (): Promise<StoredContent | null> => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return null;
-    return JSON.parse(stored);
+    const allContent = await contentStore.getAllContent();
+    if (Object.keys(allContent).length === 0) return null;
+    return allContent as StoredContent;
   } catch (error) {
     console.error('Failed to load content:', error);
     return null;
   }
 };
 
-export const clearContent = (): void => {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch (error) {
-    console.error('Failed to clear content:', error);
-  }
+export const clearContent = async (): Promise<void> => {
+  console.log('Clear content not implemented for DB storage');
 };
 
 export const saveImage = async (file: File): Promise<string> => {

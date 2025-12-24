@@ -329,28 +329,63 @@ const BlogContactsSection = ({
                 </div>
               </div>
             ) : (
-              <div className="space-y-6">
-                <div className="text-card-foreground text-base leading-relaxed whitespace-pre-wrap">
-                  {selectedPost?.content || 'Содержимое статьи не добавлено'}
-                </div>
-                
-                {selectedPost?.images && selectedPost.images.length > 0 && (
-                  <div className="space-y-4">
-                    {selectedPost.images.map((image: any) => (
-                      <div key={image.id} className={`${
-                        image.position === 'left' ? 'text-left' : 
-                        image.position === 'right' ? 'text-right' : 'text-center'
-                      }`}>
-                        <img 
-                          src={image.src} 
-                          alt="Article" 
-                          className="rounded inline-block"
-                          style={{ width: `${image.width}%`, maxWidth: '100%' }}
-                        />
-                      </div>
-                    ))}
+              <div>
+                <div className="text-card-foreground text-base leading-relaxed">
+                  {selectedPost?.images && selectedPost.images.length > 0 && (
+                    <div className="space-y-4 mb-6">
+                      {selectedPost.images.map((image: any) => {
+                        if (image.floatText) {
+                          return (
+                            <div 
+                              key={image.id} 
+                              className={`${image.position === 'left' ? 'float-left mr-4 mb-2' : 'float-right ml-4 mb-2'}`}
+                              style={{ width: `${Math.min(image.width, 50)}%` }}
+                            >
+                              <img 
+                                src={image.src} 
+                                alt="Article" 
+                                className="rounded w-full object-cover"
+                              />
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  )}
+                  
+                  <div className="whitespace-pre-wrap">
+                    {selectedPost?.content || 'Содержимое статьи не добавлено'}
                   </div>
-                )}
+                  
+                  <div className="clear-both"></div>
+                  
+                  {selectedPost?.images && selectedPost.images.length > 0 && (
+                    <div className="space-y-4 mt-6">
+                      {selectedPost.images.map((image: any) => {
+                        if (!image.floatText) {
+                          return (
+                            <div 
+                              key={image.id} 
+                              className={`${
+                                image.position === 'left' ? 'text-left' : 
+                                image.position === 'right' ? 'text-right' : 'text-center'
+                              }`}
+                            >
+                              <img 
+                                src={image.src} 
+                                alt="Article" 
+                                className="rounded inline-block"
+                                style={{ width: `${image.width}%`, maxWidth: '100%' }}
+                              />
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>

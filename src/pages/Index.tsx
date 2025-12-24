@@ -161,29 +161,36 @@ const Index = () => {
   });
 
   useEffect(() => {
-    const stored = loadContent();
-    if (stored) {
-      setContent(prev => ({
-        ...prev,
-        ...(stored.hero && { heroTitle: stored.hero.title, heroSubtitle: stored.hero.subtitle }),
-        ...(stored.services && { services: stored.services }),
-        ...(stored.blog && { blogPosts: stored.blog }),
-        ...(stored.about && stored.about),
-        ...(stored.contacts && stored.contacts)
-      }));
-    }
+    const loadStoredContent = async () => {
+      const stored = await loadContent();
+      if (stored) {
+        setContent(prev => ({
+          ...prev,
+          ...(stored.hero && { heroTitle: stored.hero.title, heroSubtitle: stored.hero.subtitle }),
+          ...(stored.services && { services: stored.services }),
+          ...(stored.blog && { blogPosts: stored.blog }),
+          ...(stored.about && stored.about),
+          ...(stored.contacts && stored.contacts)
+        }));
+      }
+    };
+    loadStoredContent();
   }, []);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      saveContent({
-        hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
-        services: content.services,
-        blog: content.blogPosts,
-        about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
-        contacts: { title: content.contactsTitle, contacts: content.contacts }
-      });
-    }, 500);
+    const timeoutId = setTimeout(async () => {
+      try {
+        await saveContent({
+          hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
+          services: content.services,
+          blog: content.blogPosts,
+          about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
+          contacts: { title: content.contactsTitle, contacts: content.contacts }
+        });
+      } catch (error) {
+        console.error('Error auto-saving content:', error);
+      }
+    }, 1000);
 
     return () => clearTimeout(timeoutId);
   }, [content]);
