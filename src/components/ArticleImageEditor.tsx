@@ -116,7 +116,10 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                       type="button"
                       size="sm"
                       variant={image.position === 'left' ? 'default' : 'outline'}
-                      onClick={() => updateImage(image.id, { position: 'left' })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateImage(image.id, { position: 'left' });
+                      }}
                     >
                       <Icon name="AlignLeft" size={14} />
                     </Button>
@@ -124,7 +127,10 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                       type="button"
                       size="sm"
                       variant={image.position === 'center' ? 'default' : 'outline'}
-                      onClick={() => updateImage(image.id, { position: 'center' })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateImage(image.id, { position: 'center' });
+                      }}
                     >
                       <Icon name="AlignCenter" size={14} />
                     </Button>
@@ -132,7 +138,10 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                       type="button"
                       size="sm"
                       variant={image.position === 'right' ? 'default' : 'outline'}
-                      onClick={() => updateImage(image.id, { position: 'right' })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateImage(image.id, { position: 'right' });
+                      }}
                     >
                       <Icon name="AlignRight" size={14} />
                     </Button>
@@ -142,7 +151,10 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                     type="button"
                     size="sm"
                     variant="destructive"
-                    onClick={() => removeImage(image.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeImage(image.id);
+                    }}
                   >
                     <Icon name="Trash2" size={14} />
                   </Button>

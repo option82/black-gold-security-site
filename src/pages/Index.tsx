@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import Header from "@/components/Header";
 import ContentSections from "@/components/ContentSections";
@@ -175,13 +175,17 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    saveContent({
-      hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
-      services: content.services,
-      blog: content.blogPosts,
-      about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
-      contacts: { title: content.contactsTitle, contacts: content.contacts }
-    });
+    const timeoutId = setTimeout(() => {
+      saveContent({
+        hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
+        services: content.services,
+        blog: content.blogPosts,
+        about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
+        contacts: { title: content.contactsTitle, contacts: content.contacts }
+      });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [content]);
 
   useEffect(() => {
@@ -242,70 +246,77 @@ const Index = () => {
     }
   };
 
-  const addItem = (section: string) => {
-    const newContent = { ...content };
+  const addItem = useCallback((section: string) => {
+    setContent(prev => {
+      const newContent = { ...prev };
 
-    if (section === "aboutStats") {
-      newContent.aboutStats.push({ value: "0", label: "Новый показатель" });
-    } else if (section === "services") {
-      newContent.services.push({
-        title: "Новая услуга",
-        description: "Описание услуги",
-        icon: "Shield",
-        image: "",
-      });
-    } else if (section === "portfolio") {
-      newContent.portfolio.push({
-        title: "Новый проект",
-        description: "Описание проекта",
-        result: "0",
-        image: "",
-      });
-    } else if (section === "cases") {
-      newContent.cases.push({
-        title: "Новый кейс",
-        description: "Описание кейса",
-        duration: "Срок:",
-        result: "Результат:",
-      });
-    } else if (section === "blogPosts") {
-      newContent.blogPosts.push({
-        title: "Новая статья",
-        date: new Date().toLocaleDateString("ru-RU"),
-        category: "Категория",
-        content: "Содержимое статьи...",
-      });
-    } else if (section === "contacts") {
-      newContent.contacts.push({
-        icon: "Mail",
-        title: "Новый контакт",
-        value: "Значение",
-      });
-    } else if (section === "menuItems") {
-      newContent.menuItems.push({ id: "new-section", label: "Новый раздел" });
-    }
+      if (section === "aboutStats") {
+        newContent.aboutStats.push({ value: "0", label: "Новый показатель" });
+      } else if (section === "services") {
+        newContent.services.push({
+          title: "Новая услуга",
+          description: "Описание услуги",
+          icon: "Shield",
+          image: "",
+        });
+      } else if (section === "portfolio") {
+        newContent.portfolio.push({
+          title: "Новый проект",
+          description: "Описание проекта",
+          result: "0",
+          image: "",
+        });
+      } else if (section === "cases") {
+        newContent.cases.push({
+          title: "Новый кейс",
+          description: "Описание кейса",
+          duration: "Срок:",
+          result: "Результат:",
+        });
+      } else if (section === "blogPosts") {
+        newContent.blogPosts.push({
+          title: "Новая статья",
+          date: new Date().toLocaleDateString("ru-RU"),
+          category: "Категория",
+          content: "Содержимое статьи...",
+          images: [],
+        });
+      } else if (section === "contacts") {
+        newContent.contacts.push({
+          icon: "Mail",
+          title: "Новый контакт",
+          value: "Значение",
+        });
+      } else if (section === "menuItems") {
+        newContent.menuItems.push({ id: "new-section", label: "Новый раздел" });
+      }
 
-    setContent(newContent);
+      return newContent;
+    });
     toast.success("Блок добавлен");
-  };
+  }, []);
 
-  const removeItem = (section: string, index: number) => {
-    const newContent = { ...content };
-    (newContent as any)[section].splice(index, 1);
-    setContent(newContent);
+  const removeItem = useCallback((section: string, index: number) => {
+    setContent(prev => {
+      const newContent = { ...prev };
+      (newContent as any)[section].splice(index, 1);
+      return newContent;
+    });
     toast.success("Блок удален");
-  };
+  }, []);
 
-  const updateItem = (
+  const updateItem = useCallback((
     section: string,
     index: number,
     field: string,
     value: any,
   ) => {
-    const newContent = { ...content };
-    (newContent as any)[section][index][field] = value;
-    setContent(newContent);
-  };
+    setContent(prev => {
+      const newContent = { ...prev };
+      (newContent as any)[section][index][field] = value;
+      return newContent;
+    });
+  }, []);
 
   const iconOptions = [
     "Shield",

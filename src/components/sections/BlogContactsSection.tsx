@@ -4,7 +4,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import ArticleImageEditor from '@/components/ArticleImageEditor';
@@ -28,15 +28,17 @@ const BlogContactsSection = ({
   addItem,
   iconOptions,
 }: BlogContactsSectionProps) => {
-  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [selectedPostIndex, setSelectedPostIndex] = useState<number | null>(null);
   const [showArticleDialog, setShowArticleDialog] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handlePostClick = (post: any) => {
-    setSelectedPost(post);
+  const handlePostClick = (index: number) => {
+    setSelectedPostIndex(index);
     setShowArticleDialog(true);
   };
+
+  const selectedPost = selectedPostIndex !== null ? content.blogPosts[selectedPostIndex] : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +86,7 @@ const BlogContactsSection = ({
               <Card 
                 key={index} 
                 className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group"
-                onClick={() => !isAdminMode && handlePostClick(post)}
+                onClick={() => !isAdminMode && handlePostClick(index)}
               >
                 {isAdminMode && (
                   <button
@@ -130,7 +132,7 @@ const BlogContactsSection = ({
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handlePostClick(post);
+                        handlePostClick(index);
                       }}
                       variant="outline"
                       size="sm"
@@ -285,14 +287,17 @@ const BlogContactsSection = ({
         <div className="section-divider mt-12" />
       </section>
 
-      <Dialog open={showArticleDialog} onOpenChange={setShowArticleDialog}>
+      <Dialog open={showArticleDialog} onOpenChange={(open) => {
+        setShowArticleDialog(open);
+        if (!open) setSelectedPostIndex(null);
+      }}>
         <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto bg-card border-2 border-primary/30 text-card-foreground">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-gold mb-2">{selectedPost?.title || 'Статья'}</DialogTitle>
-            <div className="flex items-center gap-4 text-sm">
+            <DialogDescription className="flex items-center gap-4 text-sm">
               <span className="text-gold uppercase tracking-wide font-semibold">{selectedPost?.category}</span>
               <span className="text-card-foreground/70">{selectedPost?.date}</span>
-            </div>
+            </DialogDescription>
           </DialogHeader>
           <div className="mt-6 space-y-6">
             {isAdminMode ? (
@@ -302,10 +307,8 @@ const BlogContactsSection = ({
                   <Textarea
                     value={selectedPost?.content || ''}
                     onChange={(e) => {
-                      const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
-                      if (postIndex !== -1) {
-                        updateItem('blogPosts', postIndex, 'content', e.target.value);
-                        setSelectedPost({ ...selectedPost, content: e.target.value });
+                      if (selectedPostIndex !== null) {
+                        updateItem('blogPosts', selectedPostIndex, 'content', e.target.value);
                       }
                     }}
                     className="min-h-[200px] bg-muted text-card-foreground"
@@ -318,10 +321,8 @@ const BlogContactsSection = ({
                   <ArticleImageEditor
                     images={selectedPost?.images || []}
                     onImagesChange={(images) => {
-                      const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
-                      if (postIndex !== -1) {
-                        updateItem('blogPosts', postIndex, 'images', images);
-                        setSelectedPost({ ...selectedPost, images });
+                      if (selectedPostIndex !== null) {
+                        updateItem('blogPosts', selectedPostIndex, 'images', images);
                       }
                     }}
                   />
