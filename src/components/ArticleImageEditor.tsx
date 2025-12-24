@@ -85,7 +85,7 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
       {images.length > 0 && (
         <div className="space-y-3">
           {images.map((image) => (
-            <Card key={image.id} className="p-3 cyber-card">
+            <Card key={image.id} className="p-3 bg-muted border-primary/20">
               <div className="space-y-3">
                 <img 
                   src={image.src} 
@@ -99,7 +99,7 @@ const ArticleImageEditor = ({ images, onImagesChange }: ArticleImageEditorProps)
                 
                 <div className="flex items-center gap-2">
                   <div className="flex-1">
-                    <label className="text-xs text-muted-foreground">Ширина: {image.width}%</label>
+                    <label className="text-xs text-card-foreground">Ширина: {image.width}%</label>
                     <Input
                       type="range"
                       min="20"

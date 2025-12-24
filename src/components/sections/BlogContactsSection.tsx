@@ -286,19 +286,19 @@ const BlogContactsSection = ({
       </section>
 
       <Dialog open={showArticleDialog} onOpenChange={setShowArticleDialog}>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto cyber-card">
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto bg-card border-2 border-primary/30 text-card-foreground">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gold mb-2">{selectedPost?.title}</DialogTitle>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span className="text-gold uppercase tracking-wide">{selectedPost?.category}</span>
-              <span>{selectedPost?.date}</span>
+            <DialogTitle className="text-2xl font-bold text-gold mb-2">{selectedPost?.title || 'Статья'}</DialogTitle>
+            <div className="flex items-center gap-4 text-sm">
+              <span className="text-gold uppercase tracking-wide font-semibold">{selectedPost?.category}</span>
+              <span className="text-card-foreground/70">{selectedPost?.date}</span>
             </div>
           </DialogHeader>
-          <div className="mt-4 space-y-6">
+          <div className="mt-6 space-y-6">
             {isAdminMode ? (
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Текст статьи</label>
+                  <label className="text-sm font-medium mb-2 block text-card-foreground">Текст статьи</label>
                   <Textarea
                     value={selectedPost?.content || ''}
                     onChange={(e) => {
@@ -308,13 +308,13 @@ const BlogContactsSection = ({
                         setSelectedPost({ ...selectedPost, content: e.target.value });
                       }
                     }}
-                    className="min-h-[200px] bg-muted"
+                    className="min-h-[200px] bg-muted text-card-foreground"
                     placeholder="Текст статьи..."
                   />
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Изображения статьи</label>
+                  <label className="text-sm font-medium mb-2 block text-card-foreground">Изображения статьи</label>
                   <ArticleImageEditor
                     images={selectedPost?.images || []}
                     onImagesChange={(images) => {
@@ -329,7 +329,7 @@ const BlogContactsSection = ({
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="text-foreground leading-relaxed whitespace-pre-wrap">
+                <div className="text-card-foreground text-base leading-relaxed whitespace-pre-wrap">
                   {selectedPost?.content || 'Содержимое статьи не добавлено'}
                 </div>
                 
