@@ -54,21 +54,30 @@ const AdminPanel = ({
 
       {isAdminMode && (
         <div className="fixed bottom-4 right-4 z-50">
-          <Card className="p-4 bg-primary text-background shadow-2xl">
-            <div className="flex items-center space-x-2">
-              <Icon name="Lock" size={20} />
-              <span className="font-semibold">Режим редактирования</span>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setIsAdminMode(false);
-                  toast.success('Изменения сохранены');
-                }}
-                className="ml-4 bg-background text-primary"
-              >
-                Сохранить и выйти
-              </Button>
+          <Card className="p-4 bg-primary text-background shadow-2xl max-w-xs">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Icon name="Lock" size={20} />
+                  <span className="font-semibold">Редактирование</span>
+                </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    setIsAdminMode(false);
+                    toast.success('Изменения сохранены');
+                  }}
+                  className="bg-background text-primary"
+                >
+                  Выход
+                </Button>
+              </div>
+              <div className="text-xs space-y-1 opacity-90">
+                <p>• Наведите на элемент для редактирования</p>
+                <p>• Перетаскивайте карточки для изменения порядка</p>
+                <p>• Загружайте изображения прямо с ПК</p>
+              </div>
             </div>
           </Card>
         </div>

@@ -122,4 +122,25 @@
     margin: 0 auto;
     max-width: 90%;
   }
+
+  .section-backdrop {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .draggable-item {
+    cursor: move;
+    transition: all 0.2s;
+  }
+
+  .draggable-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(244, 208, 63, 0.3);
+  }
+
+  .dragging {
+    opacity: 0.5;
+  }
 }

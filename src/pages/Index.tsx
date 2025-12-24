@@ -123,6 +123,7 @@ const Index = () => {
         category: "Безопасность бизнеса",
         content:
           "Проверка контрагента — обязательный этап перед заключением любой сделки. В статье мы рассмотрим основные шаги: проверка регистрационных данных, анализ финансовой отчетности, изучение репутации и судебных дел. Это позволит избежать финансовых потерь и репутационных рисков.",
+        images: [],
       },
       {
         title: "DLP-системы: зачем они нужны вашему бизнесу",
@@ -130,6 +131,7 @@ const Index = () => {
         category: "Защита информации",
         content:
           "DLP (Data Loss Prevention) — это система предотвращения утечки конфиденциальной информации. Она контролирует передачу данных через email, мессенджеры, USB-носители. Внедрение DLP позволяет защитить коммерческую тайну и предотвратить промышленный шпионаж.",
+        images: [],
       },
       {
         title: "Признаки недобросовестного подрядчика",
@@ -137,6 +139,7 @@ const Index = () => {
         category: "Аудит",
         content:
           "Недобросовестные подрядчики могут нанести серьезный ущерб бизнесу. Основные признаки: завышение стоимости работ, нарушение сроков, плохое качество выполнения, отсутствие документов. Профессиональный аудит поможет выявить проблемы на ранней стадии.",
+        images: [],
       },
     ],
     contactsTitle: "Контакты",
@@ -172,16 +175,14 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    if (isAdminMode) {
-      saveContent({
-        hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
-        services: content.services,
-        blog: content.blogPosts,
-        about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
-        contacts: { title: content.contactsTitle, contacts: content.contacts }
-      });
-    }
-  }, [content, isAdminMode]);
+    saveContent({
+      hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
+      services: content.services,
+      blog: content.blogPosts,
+      about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
+      contacts: { title: content.contactsTitle, contacts: content.contacts }
+    });
+  }, [content]);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -26,6 +26,7 @@ const PortfolioCasesSection = ({
     <>
       <section id="portfolio" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.portfolioTitle}
@@ -105,6 +106,7 @@ const PortfolioCasesSection = ({
               </Button>
             </div>
           )}
+          </div>
         </div>
         <div className="section-divider mt-12" />
       </section>
@@ -112,6 +114,7 @@ const PortfolioCasesSection = ({
       <section id="cases" className="py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
         <div className="container mx-auto relative z-10">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.casesTitle}
@@ -192,6 +195,7 @@ const PortfolioCasesSection = ({
               </Button>
             </div>
           )}
+          </div>
         </div>
         <div className="section-divider mt-12" />
       </section>

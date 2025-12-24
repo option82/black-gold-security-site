@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import ArticleImageEditor from '@/components/ArticleImageEditor';
 
 interface BlogContactsSectionProps {
   content: any;
@@ -67,6 +68,7 @@ const BlogContactsSection = ({
     <>
       <section id="blog" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.blogTitle}
@@ -82,7 +84,7 @@ const BlogContactsSection = ({
               <Card 
                 key={index} 
                 className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group"
-                onClick={() => handlePostClick(post)}
+                onClick={() => !isAdminMode && handlePostClick(post)}
               >
                 {isAdminMode && (
                   <button
@@ -151,6 +153,7 @@ const BlogContactsSection = ({
               </Button>
             </div>
           )}
+          </div>
         </div>
         <div className="section-divider mt-12" />
       </section>
@@ -158,6 +161,7 @@ const BlogContactsSection = ({
       <section id="contacts" className="py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
         <div className="container mx-auto relative z-10">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.contactsTitle}
@@ -276,12 +280,13 @@ const BlogContactsSection = ({
               </form>
             </Card>
           </div>
+          </div>
         </div>
         <div className="section-divider mt-12" />
       </section>
 
       <Dialog open={showArticleDialog} onOpenChange={setShowArticleDialog}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto cyber-card">
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto cyber-card">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-gold mb-2">{selectedPost?.title}</DialogTitle>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -289,28 +294,62 @@ const BlogContactsSection = ({
               <span>{selectedPost?.date}</span>
             </div>
           </DialogHeader>
-          <div className="mt-4">
+          <div className="mt-4 space-y-6">
             {isAdminMode ? (
               <div className="space-y-4">
-                <Textarea
-                  value={selectedPost?.content || ''}
-                  onChange={(e) => {
-                    const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
-                    if (postIndex !== -1) {
-                      updateItem('blogPosts', postIndex, 'content', e.target.value);
-                      setSelectedPost({ ...selectedPost, content: e.target.value });
-                    }
-                  }}
-                  className="min-h-[300px] bg-muted"
-                  placeholder="Текст статьи..."
-                />
-                <div className="text-sm text-muted-foreground">
-                  <p>Совет: Для загрузки изображений используйте внешние ссылки или base64</p>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Текст статьи</label>
+                  <Textarea
+                    value={selectedPost?.content || ''}
+                    onChange={(e) => {
+                      const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
+                      if (postIndex !== -1) {
+                        updateItem('blogPosts', postIndex, 'content', e.target.value);
+                        setSelectedPost({ ...selectedPost, content: e.target.value });
+                      }
+                    }}
+                    className="min-h-[200px] bg-muted"
+                    placeholder="Текст статьи..."
+                  />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Изображения статьи</label>
+                  <ArticleImageEditor
+                    images={selectedPost?.images || []}
+                    onImagesChange={(images) => {
+                      const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
+                      if (postIndex !== -1) {
+                        updateItem('blogPosts', postIndex, 'images', images);
+                        setSelectedPost({ ...selectedPost, images });
+                      }
+                    }}
+                  />
                 </div>
               </div>
             ) : (
-              <div className="text-foreground leading-relaxed whitespace-pre-wrap">
-                {selectedPost?.content || 'Содержимое статьи не добавлено'}
+              <div className="space-y-6">
+                <div className="text-foreground leading-relaxed whitespace-pre-wrap">
+                  {selectedPost?.content || 'Содержимое статьи не добавлено'}
+                </div>
+                
+                {selectedPost?.images && selectedPost.images.length > 0 && (
+                  <div className="space-y-4">
+                    {selectedPost.images.map((image: any) => (
+                      <div key={image.id} className={`${
+                        image.position === 'left' ? 'text-left' : 
+                        image.position === 'right' ? 'text-right' : 'text-center'
+                      }`}>
+                        <img 
+                          src={image.src} 
+                          alt="Article" 
+                          className="rounded inline-block"
+                          style={{ width: `${image.width}%`, maxWidth: '100%' }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

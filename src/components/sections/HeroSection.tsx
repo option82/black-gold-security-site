@@ -14,7 +14,8 @@ const HeroSection = ({ content, setContent, isAdminMode, scrollToSection }: Hero
     <section id="home" className="pt-32 pb-20 px-4 min-h-screen flex items-center tech-pattern relative">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-transparent to-blue-900/10 pointer-events-none" />
       <div className="container mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="section-backdrop">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             {isAdminMode ? (
               <Textarea
@@ -61,6 +62,7 @@ const HeroSection = ({ content, setContent, isAdminMode, scrollToSection }: Hero
               />
             </div>
           </div>
+        </div>
         </div>
       </div>
       <div className="section-divider mt-12" />

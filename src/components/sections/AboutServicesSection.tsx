@@ -5,6 +5,9 @@ import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ImageUpload from '@/components/ImageUpload';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, arrayMove, rectSortingStrategy } from '@dnd-kit/sortable';
+import SortableCard from '@/components/SortableCard';
 
 interface AboutServicesSectionProps {
   content: any;
@@ -25,10 +28,31 @@ const AboutServicesSection = ({
   addItem,
   iconOptions,
 }: AboutServicesSectionProps) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent, section: string) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = content[section].findIndex((item: any, idx: number) => `${section}-${idx}` === active.id);
+      const newIndex = content[section].findIndex((item: any, idx: number) => `${section}-${idx}` === over.id);
+      
+      const newItems = arrayMove(content[section], oldIndex, newIndex);
+      setContent({ ...content, [section]: newItems });
+    }
+  };
+
   return (
     <>
       <section id="about" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.aboutTitle}
@@ -92,12 +116,14 @@ const AboutServicesSection = ({
               {content.aboutDescription}
             </p>
           )}
+          </div>
         </div>
       </section>
 
       <section id="services" className="py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-radial from-blue-950/10 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto relative z-10">
+          <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.servicesTitle}
@@ -120,12 +146,20 @@ const AboutServicesSection = ({
             </p>
           )}
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {content.services.map((service: any, index: number) => (
-              <Card
-                key={index}
-                className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all hover:scale-105 duration-300 relative group"
-              >
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={(e) => handleDragEnd(e, 'services')}
+          >
+            <SortableContext
+              items={content.services.map((_: any, idx: number) => `services-${idx}`)}
+              strategy={rectSortingStrategy}
+              disabled={!isAdminMode}
+            >
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {content.services.map((service: any, index: number) => (
+                  <SortableCard key={`services-${index}`} id={`services-${index}`} disabled={!isAdminMode}>
+                    <Card className={`p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group ${isAdminMode ? 'cursor-move' : 'hover:scale-105 duration-300'}`}>
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('services', index)}
@@ -191,9 +225,12 @@ const AboutServicesSection = ({
                 ) : (
                   <p className="text-muted-foreground">{service.description}</p>
                 )}
-              </Card>
-            ))}
-          </div>
+                    </Card>
+                  </SortableCard>
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
           
           {isAdminMode && (
             <div className="text-center mt-8">
@@ -203,6 +240,7 @@ const AboutServicesSection = ({
               </Button>
             </div>
           )}
+          </div>
         </div>
         <div className="section-divider mt-12" />
       </section>
