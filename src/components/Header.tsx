@@ -89,8 +89,6 @@ const Header = ({
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Button size="sm" className="hidden lg:inline-flex gold-gradient text-background font-semibold">Консультация</Button>
-            
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="lg:hidden">
@@ -110,9 +108,6 @@ const Header = ({
                       {item.label}
                     </button>
                   ))}
-                  <Button className="gold-gradient text-background font-semibold">
-                    Бесплатная консультация
-                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
