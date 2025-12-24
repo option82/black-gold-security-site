@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import ContentSections from "@/components/ContentSections";
 import Footer from "@/components/Footer";
 import AdminPanel from "@/components/AdminPanel";
+import { saveContent, loadContent } from "@/lib/storage";
 
 const Index = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -155,6 +156,32 @@ const Index = () => {
       { id: "contacts", label: "Контакты" },
     ],
   });
+
+  useEffect(() => {
+    const stored = loadContent();
+    if (stored) {
+      setContent(prev => ({
+        ...prev,
+        ...(stored.hero && { heroTitle: stored.hero.title, heroSubtitle: stored.hero.subtitle }),
+        ...(stored.services && { services: stored.services }),
+        ...(stored.blog && { blogPosts: stored.blog }),
+        ...(stored.about && stored.about),
+        ...(stored.contacts && stored.contacts)
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAdminMode) {
+      saveContent({
+        hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
+        services: content.services,
+        blog: content.blogPosts,
+        about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
+        contacts: { title: content.contactsTitle, contacts: content.contacts }
+      });
+    }
+  }, [content, isAdminMode]);
 
   useEffect(() => {
     const handleScroll = () => {

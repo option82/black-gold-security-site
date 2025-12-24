@@ -6,6 +6,7 @@ import Icon from '@/components/ui/icon';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface BlogContactsSectionProps {
   content: any;
@@ -28,10 +29,38 @@ const BlogContactsSection = ({
 }: BlogContactsSectionProps) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [showArticleDialog, setShowArticleDialog] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
     setShowArticleDialog(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/e8762d55-c19f-4166-bef2-57db3c6eb8a5', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success('Заявка успешно отправлена!');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        toast.error(result.error || 'Ошибка при отправке');
+      }
+    } catch (error) {
+      toast.error('Ошибка при отправке заявки');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,7 +82,7 @@ const BlogContactsSection = ({
               <Card 
                 key={index} 
                 className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group"
-                onClick={() => !isAdminMode && handlePostClick(post)}
+                onClick={() => handlePostClick(post)}
               >
                 {isAdminMode && (
                   <button
@@ -96,14 +125,18 @@ const BlogContactsSection = ({
                 
                 {isAdminMode && (
                   <div className="mt-4">
-                    <label className="text-xs text-muted-foreground">Содержимое статьи:</label>
-                    <Textarea
-                      value={post.content || ''}
-                      onChange={(e) => updateItem('blogPosts', index, 'content', e.target.value)}
-                      className="bg-muted mt-1"
-                      placeholder="Текст статьи..."
-                      rows={4}
-                    />
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePostClick(post);
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                    >
+                      <Icon name="Edit" size={14} className="mr-2" />
+                      Редактировать статью
+                    </Button>
                   </div>
                 )}
               </Card>
@@ -202,12 +235,43 @@ const BlogContactsSection = ({
             
             <Card className="p-6 cyber-card">
               <h3 className="text-xl font-bold mb-4 text-gold">Напишите нам</h3>
-              <form className="space-y-4">
-                <Input placeholder="Ваше имя" className="bg-muted" />
-                <Input placeholder="Email" className="bg-muted" />
-                <Textarea placeholder="Сообщение" className="bg-muted" />
-                <Button className="w-full gold-gradient text-background font-semibold">
-                  Отправить
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <Input 
+                  placeholder="Ваше имя" 
+                  className="bg-muted" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+                <Input 
+                  placeholder="Email" 
+                  type="email"
+                  className="bg-muted" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                />
+                <Input 
+                  placeholder="Телефон" 
+                  type="tel"
+                  className="bg-muted" 
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                />
+                <Textarea 
+                  placeholder="Сообщение" 
+                  className="bg-muted" 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  required
+                />
+                <Button 
+                  type="submit" 
+                  className="w-full gold-gradient text-background font-semibold"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Отправка...' : 'Отправить'}
                 </Button>
               </form>
             </Card>
@@ -225,8 +289,30 @@ const BlogContactsSection = ({
               <span>{selectedPost?.date}</span>
             </div>
           </DialogHeader>
-          <div className="mt-4 text-foreground leading-relaxed whitespace-pre-wrap">
-            {selectedPost?.content || 'Содержимое статьи не добавлено'}
+          <div className="mt-4">
+            {isAdminMode ? (
+              <div className="space-y-4">
+                <Textarea
+                  value={selectedPost?.content || ''}
+                  onChange={(e) => {
+                    const postIndex = content.blogPosts.findIndex((p: any) => p === selectedPost);
+                    if (postIndex !== -1) {
+                      updateItem('blogPosts', postIndex, 'content', e.target.value);
+                      setSelectedPost({ ...selectedPost, content: e.target.value });
+                    }
+                  }}
+                  className="min-h-[300px] bg-muted"
+                  placeholder="Текст статьи..."
+                />
+                <div className="text-sm text-muted-foreground">
+                  <p>Совет: Для загрузки изображений используйте внешние ссылки или base64</p>
+                </div>
+              </div>
+            ) : (
+              <div className="text-foreground leading-relaxed whitespace-pre-wrap">
+                {selectedPost?.content || 'Содержимое статьи не добавлено'}
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

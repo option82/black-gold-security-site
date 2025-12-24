@@ -1,20 +1,26 @@
 {
   "tests": [
     {
-      "name": "Send email test",
+      "name": "Send email with valid data",
       "method": "POST",
       "path": "/",
       "body": {
         "name": "Иван Иванов",
-        "phone": "+7 (999) 123-45-67",
-        "message": "Хочу консультацию"
+        "email": "test@example.com",
+        "phone": "+79991234567",
+        "message": "Хочу консультацию по защите бизнеса"
       },
       "expectedStatus": 200,
       "expectedBody": {
-        "success": true,
-        "message": "string"
+        "success": true
       },
       "bodyMatcher": "partial"
+    },
+    {
+      "name": "Handle OPTIONS for CORS",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
     }
   ]
 }
