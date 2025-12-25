@@ -1,26 +1,18 @@
-const STORAGE_PREFIX = 'site_content_';
-const STORAGE_VERSION = 'v1';
+const STORAGE_KEY = 'site_content_v2';
+const DATA_FILE_URL = '/site-data.json';
 
 export interface ContentStore {
   getContent: (key: string) => Promise<any>;
   saveContent: (key: string, data: any) => Promise<void>;
   getAllContent: () => Promise<Record<string, any>>;
+  syncToFile: () => Promise<void>;
 }
 
 export const contentStore: ContentStore = {
   async getContent(key: string) {
     try {
-      const storageKey = `${STORAGE_PREFIX}${STORAGE_VERSION}_${key}`;
-      const stored = localStorage.getItem(storageKey);
-      
-      if (stored) {
-        const data = JSON.parse(stored);
-        console.log('Content loaded from localStorage for key:', key);
-        return data;
-      }
-      
-      console.log('Content not found in localStorage for key:', key);
-      return null;
+      const allData = await this.getAllContent();
+      return allData[key] || null;
     } catch (error) {
       console.error(`Error loading content for key ${key}:`, error);
       return null;
@@ -29,9 +21,10 @@ export const contentStore: ContentStore = {
 
   async saveContent(key: string, data: any) {
     try {
-      const storageKey = `${STORAGE_PREFIX}${STORAGE_VERSION}_${key}`;
-      localStorage.setItem(storageKey, JSON.stringify(data));
-      console.log('Content saved to localStorage for key:', key);
+      const allData = await this.getAllContent();
+      allData[key] = data;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+      console.log('Content saved for key:', key);
     } catch (error) {
       console.error(`Error saving content for key ${key}:`, error);
       throw error;
@@ -40,25 +33,28 @@ export const contentStore: ContentStore = {
 
   async getAllContent() {
     try {
-      const result: Record<string, any> = {};
-      const prefix = `${STORAGE_PREFIX}${STORAGE_VERSION}_`;
+      const stored = localStorage.getItem(STORAGE_KEY);
       
-      for (let i = 0; i < localStorage.length; i++) {
-        const storageKey = localStorage.key(i);
-        if (storageKey && storageKey.startsWith(prefix)) {
-          const key = storageKey.replace(prefix, '');
-          const value = localStorage.getItem(storageKey);
-          if (value) {
-            result[key] = JSON.parse(value);
-          }
-        }
+      if (stored) {
+        return JSON.parse(stored);
       }
       
-      console.log('All content loaded from localStorage:', Object.keys(result));
-      return result;
+      const response = await fetch(DATA_FILE_URL);
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        console.log('Initial data loaded from file');
+        return data;
+      }
+      
+      return {};
     } catch (error) {
       console.error('Error loading all content:', error);
       return {};
     }
+  },
+
+  async syncToFile() {
+    console.log('Синхронизация с файлом доступна через экспорт/импорт');
   }
 };

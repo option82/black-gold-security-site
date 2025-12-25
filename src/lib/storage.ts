@@ -38,18 +38,8 @@ export const loadContent = async (): Promise<StoredContent | null> => {
 };
 
 export const clearContent = async (): Promise<void> => {
-  const prefix = 'site_content_v1_';
-  const keysToRemove: string[] = [];
-  
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith(prefix)) {
-      keysToRemove.push(key);
-    }
-  }
-  
-  keysToRemove.forEach(key => localStorage.removeItem(key));
-  console.log(`Cleared ${keysToRemove.length} content items`);
+  localStorage.removeItem('site_content_v2');
+  console.log('Content cleared');
 };
 
 export const exportContent = async (): Promise<string> => {
