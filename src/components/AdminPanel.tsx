@@ -5,8 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
-import { downloadContentBackup, importContent, exportContent } from '@/lib/storage';
-import { useRef } from 'react';
+import { downloadContentBackup, exportContent } from '@/lib/storage';
 
 interface AdminPanelProps {
   showAuthDialog: boolean;
@@ -16,7 +15,6 @@ interface AdminPanelProps {
   handleAuth: () => void;
   isAdminMode: boolean;
   setIsAdminMode: (mode: boolean) => void;
-  onContentReload?: () => void;
 }
 
 const AdminPanel = ({
@@ -27,48 +25,37 @@ const AdminPanel = ({
   handleAuth,
   isAdminMode,
   setIsAdminMode,
-  onContentReload,
 }: AdminPanelProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const handleExport = async () => {
     try {
       await downloadContentBackup();
-      toast.success('Резервная копия скачана');
+      toast.success('Файл site-data.json скачан! Замените им файл в папке public/', {
+        duration: 5000
+      });
     } catch (error) {
       toast.error('Ошибка экспорта данных');
     }
   };
 
-  const handleImportClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleCopyInstructions = () => {
+    const instructions = `
+ИНСТРУКЦИЯ ПО СОХРАНЕНИЮ ИЗМЕНЕНИЙ:
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+1. Нажмите кнопку "Скачать изменения"
+2. Скачается файл site-data.json
+3. Замените им файл public/site-data.json в проекте
+4. Закоммитьте изменения в GitHub
+5. После деплоя все устройства увидят изменения
 
-    try {
-      const text = await file.text();
-      await importContent(text);
-      toast.success('Данные импортированы успешно');
-      onContentReload?.();
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    } catch (error) {
-      toast.error('Ошибка импорта данных');
-    }
-  };
-
-  const handleCopyData = async () => {
-    try {
-      const data = await exportContent();
-      await navigator.clipboard.writeText(data);
-      toast.success('Данные скопированы в буфер обмена');
-    } catch (error) {
-      toast.error('Ошибка копирования данных');
-    }
+Быстрая команда для коммита:
+cp ~/Downloads/site-data.json public/site-data.json
+git add public/site-data.json
+git commit -m "Обновление контента сайта"
+git push
+    `.trim();
+    
+    navigator.clipboard.writeText(instructions);
+    toast.success('Инструкция скопирована в буфер обмена');
   };
 
   return (
@@ -126,57 +113,38 @@ const AdminPanel = ({
               </div>
               
               <div className="pt-2 border-t border-background/20 space-y-2">
-                <div className="text-xs font-semibold opacity-90">Резервное копирование</div>
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleExport}
-                    className="bg-background text-primary flex-1 text-xs"
-                  >
-                    <Icon name="Download" size={14} className="mr-1" />
-                    Скачать
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleImportClick}
-                    className="bg-background text-primary flex-1 text-xs"
-                  >
-                    <Icon name="Upload" size={14} className="mr-1" />
-                    Загрузить
-                  </Button>
-                </div>
+                <div className="text-xs font-semibold opacity-90">Сохранение изменений</div>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={handleCopyData}
+                  onClick={handleExport}
+                  className="bg-background text-primary w-full text-xs"
+                >
+                  <Icon name="Download" size={14} className="mr-1" />
+                  Скачать изменения
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleCopyInstructions}
                   className="bg-background text-primary w-full text-xs"
                 >
                   <Icon name="Copy" size={14} className="mr-1" />
-                  Копировать данные
+                  Копировать инструкцию
                 </Button>
-                <div className="text-[10px] opacity-70 leading-tight space-y-1">
-                  <p><strong>Как работает:</strong></p>
-                  <p>• Все изменения сохраняются в браузере автоматически</p>
-                  <p>• Для синхронизации между устройствами:</p>
-                  <p className="pl-2">1. Нажмите "Скачать" на этом устройстве</p>
-                  <p className="pl-2">2. Нажмите "Загрузить" на другом устройстве</p>
-                  <p>• Без интернета сайт работает полностью автономно</p>
+                <div className="text-[10px] opacity-70 leading-tight space-y-1 bg-background/10 p-2 rounded">
+                  <p className="font-semibold text-[11px] opacity-100">⚠️ Важно!</p>
+                  <p>1. Нажмите "Скачать изменения"</p>
+                  <p>2. Замените файл public/site-data.json</p>
+                  <p>3. Закоммитьте в GitHub</p>
+                  <p>4. После деплоя все увидят изменения</p>
+                  <p className="pt-1 italic">Без коммита изменения видны только в вашем браузере!</p>
                 </div>
               </div>
             </div>
           </Card>
         </div>
       )}
-      
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".json"
-        onChange={handleFileChange}
-        className="hidden"
-      />
     </>
   );
 };

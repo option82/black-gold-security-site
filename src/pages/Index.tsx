@@ -427,7 +427,6 @@ const Index = () => {
         handleAuth={handleAuth}
         isAdminMode={isAdminMode}
         setIsAdminMode={setIsAdminMode}
-        onContentReload={loadStoredContent}
       />
     </div>
   );

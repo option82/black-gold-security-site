@@ -10,52 +10,23 @@ export interface StoredContent {
   cases: any;
   contacts: any;
   footer: any;
-  lastUpdated?: string;
 }
 
 export const saveContent = async (content: Partial<StoredContent>): Promise<void> => {
-  try {
-    for (const [key, value] of Object.entries(content)) {
-      if (key !== 'lastUpdated') {
-        await contentStore.saveContent(key, value);
-      }
-    }
-  } catch (error) {
-    console.error('Failed to save content:', error);
-    throw error;
+  for (const [key, value] of Object.entries(content)) {
+    await contentStore.saveContent(key, value);
   }
 };
 
 export const loadContent = async (): Promise<StoredContent | null> => {
-  try {
-    const allContent = await contentStore.getAllContent();
-    if (Object.keys(allContent).length === 0) return null;
-    return allContent as StoredContent;
-  } catch (error) {
-    console.error('Failed to load content:', error);
-    return null;
-  }
-};
-
-export const clearContent = async (): Promise<void> => {
-  localStorage.removeItem('site_content_v2');
-  console.log('Content cleared');
+  const allContent = await contentStore.getAllContent();
+  if (Object.keys(allContent).length === 0) return null;
+  return allContent as StoredContent;
 };
 
 export const exportContent = async (): Promise<string> => {
-  const allContent = await loadContent();
+  const allContent = await contentStore.getAllContent();
   return JSON.stringify(allContent, null, 2);
-};
-
-export const importContent = async (jsonData: string): Promise<void> => {
-  try {
-    const data = JSON.parse(jsonData) as StoredContent;
-    await saveContent(data);
-    console.log('Content imported successfully');
-  } catch (error) {
-    console.error('Failed to import content:', error);
-    throw new Error('Неверный формат данных');
-  }
 };
 
 export const downloadContentBackup = async (): Promise<void> => {
@@ -64,7 +35,7 @@ export const downloadContentBackup = async (): Promise<void> => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `site-backup-${new Date().toISOString().split('T')[0]}.json`;
+  link.download = `site-data.json`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
