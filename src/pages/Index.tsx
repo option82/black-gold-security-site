@@ -162,45 +162,46 @@ const Index = () => {
     ],
   });
 
-  useEffect(() => {
-    const loadStoredContent = async () => {
-      const stored = await loadContent();
-      if (stored) {
-        setContent(prev => ({
-          ...prev,
-          ...(stored.logo && { logo: stored.logo }),
-          ...(stored.hero && { 
-            heroTitle: stored.hero.title, 
-            heroSubtitle: stored.hero.subtitle,
-            heroImage: stored.hero.image,
-            heroImageSize: stored.hero.imageSize
-          }),
-          ...(stored.services && { 
-            servicesTitle: stored.services.title,
-            servicesSubtitle: stored.services.subtitle,
-            services: stored.services.items 
-          }),
-          ...(stored.blog && { 
-            blogTitle: stored.blog.title,
-            blogPosts: stored.blog.posts 
-          }),
-          ...(stored.about && { 
-            aboutTitle: stored.about.title, 
-            aboutDescription: stored.about.description, 
-            aboutStats: stored.about.stats 
-          }),
-          ...(stored.portfolio && { portfolioTitle: stored.portfolio.title, portfolio: stored.portfolio.items }),
-          ...(stored.cases && { casesTitle: stored.cases.title, cases: stored.cases.items }),
-          ...(stored.contacts && { 
-            contactsTitle: stored.contacts.title, 
-            contacts: stored.contacts.contacts 
-          }),
-          ...(stored.footer && { footerText: stored.footer.text })
-        }));
-      }
-    };
-    loadStoredContent();
+  const loadStoredContent = useCallback(async () => {
+    const stored = await loadContent();
+    if (stored) {
+      setContent(prev => ({
+        ...prev,
+        ...(stored.logo && { logo: stored.logo }),
+        ...(stored.hero && { 
+          heroTitle: stored.hero.title, 
+          heroSubtitle: stored.hero.subtitle,
+          heroImage: stored.hero.image,
+          heroImageSize: stored.hero.imageSize
+        }),
+        ...(stored.services && { 
+          servicesTitle: stored.services.title,
+          servicesSubtitle: stored.services.subtitle,
+          services: stored.services.items 
+        }),
+        ...(stored.blog && { 
+          blogTitle: stored.blog.title,
+          blogPosts: stored.blog.posts 
+        }),
+        ...(stored.about && { 
+          aboutTitle: stored.about.title, 
+          aboutDescription: stored.about.description, 
+          aboutStats: stored.about.stats 
+        }),
+        ...(stored.portfolio && { portfolioTitle: stored.portfolio.title, portfolio: stored.portfolio.items }),
+        ...(stored.cases && { casesTitle: stored.cases.title, cases: stored.cases.items }),
+        ...(stored.contacts && { 
+          contactsTitle: stored.contacts.title, 
+          contacts: stored.contacts.contacts 
+        }),
+        ...(stored.footer && { footerText: stored.footer.text })
+      }));
+    }
   }, []);
+
+  useEffect(() => {
+    loadStoredContent();
+  }, [loadStoredContent]);
 
   useEffect(() => {
     const timeoutId = setTimeout(async () => {
@@ -426,6 +427,7 @@ const Index = () => {
         handleAuth={handleAuth}
         isAdminMode={isAdminMode}
         setIsAdminMode={setIsAdminMode}
+        onContentReload={loadStoredContent}
       />
     </div>
   );

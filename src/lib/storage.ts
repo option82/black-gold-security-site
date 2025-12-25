@@ -38,7 +38,47 @@ export const loadContent = async (): Promise<StoredContent | null> => {
 };
 
 export const clearContent = async (): Promise<void> => {
-  console.log('Clear content not implemented for DB storage');
+  const prefix = 'site_content_v1_';
+  const keysToRemove: string[] = [];
+  
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(prefix)) {
+      keysToRemove.push(key);
+    }
+  }
+  
+  keysToRemove.forEach(key => localStorage.removeItem(key));
+  console.log(`Cleared ${keysToRemove.length} content items`);
+};
+
+export const exportContent = async (): Promise<string> => {
+  const allContent = await loadContent();
+  return JSON.stringify(allContent, null, 2);
+};
+
+export const importContent = async (jsonData: string): Promise<void> => {
+  try {
+    const data = JSON.parse(jsonData) as StoredContent;
+    await saveContent(data);
+    console.log('Content imported successfully');
+  } catch (error) {
+    console.error('Failed to import content:', error);
+    throw new Error('Неверный формат данных');
+  }
+};
+
+export const downloadContentBackup = async (): Promise<void> => {
+  const jsonData = await exportContent();
+  const blob = new Blob([jsonData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `site-backup-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };
 
 export const saveImage = async (file: File): Promise<string> => {

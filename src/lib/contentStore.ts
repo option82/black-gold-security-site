@@ -1,4 +1,5 @@
-const API_URL = 'https://functions.poehali.dev/35863db1-bef4-47a1-93e6-5374942e52f5';
+const STORAGE_PREFIX = 'site_content_';
+const STORAGE_VERSION = 'v1';
 
 export interface ContentStore {
   getContent: (key: string) => Promise<any>;
@@ -9,39 +10,28 @@ export interface ContentStore {
 export const contentStore: ContentStore = {
   async getContent(key: string) {
     try {
-      const url = `${API_URL}?key=${encodeURIComponent(key)}`;
-      console.log('Fetching content from:', url);
-      const response = await fetch(url);
-      console.log('Response status:', response.status, response.statusText);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Content loaded for key:', key);
+      const storageKey = `${STORAGE_PREFIX}${STORAGE_VERSION}_${key}`;
+      const stored = localStorage.getItem(storageKey);
+      
+      if (stored) {
+        const data = JSON.parse(stored);
+        console.log('Content loaded from localStorage for key:', key);
         return data;
       }
-      console.log('Content not found for key:', key);
+      
+      console.log('Content not found in localStorage for key:', key);
       return null;
     } catch (error) {
-      console.error(`Fetch error: ${error instanceof Error ? error.message : 'Unknown error'} for ${API_URL}?key=${key}`);
+      console.error(`Error loading content for key ${key}:`, error);
       return null;
     }
   },
 
   async saveContent(key: string, data: any) {
     try {
-      console.log('Saving content for key:', key);
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ key, data })
-      });
-      console.log('Save response status:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Save failed:', errorText);
-        throw new Error(`Failed to save content: ${response.statusText}`);
-      }
-      console.log('Content saved successfully for key:', key);
+      const storageKey = `${STORAGE_PREFIX}${STORAGE_VERSION}_${key}`;
+      localStorage.setItem(storageKey, JSON.stringify(data));
+      console.log('Content saved to localStorage for key:', key);
     } catch (error) {
       console.error(`Error saving content for key ${key}:`, error);
       throw error;
@@ -50,18 +40,24 @@ export const contentStore: ContentStore = {
 
   async getAllContent() {
     try {
-      console.log('Fetching all content from:', API_URL);
-      const response = await fetch(API_URL);
-      console.log('GetAll response status:', response.status, response.statusText);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('All content loaded:', Object.keys(data));
-        return data;
+      const result: Record<string, any> = {};
+      const prefix = `${STORAGE_PREFIX}${STORAGE_VERSION}_`;
+      
+      for (let i = 0; i < localStorage.length; i++) {
+        const storageKey = localStorage.key(i);
+        if (storageKey && storageKey.startsWith(prefix)) {
+          const key = storageKey.replace(prefix, '');
+          const value = localStorage.getItem(storageKey);
+          if (value) {
+            result[key] = JSON.parse(value);
+          }
+        }
       }
-      console.log('No content found, returning empty object');
-      return {};
+      
+      console.log('All content loaded from localStorage:', Object.keys(result));
+      return result;
     } catch (error) {
-      console.error(`Fetch error: ${error instanceof Error ? error.message : 'Unknown error'} for ${API_URL}`);
+      console.error('Error loading all content:', error);
       return {};
     }
   }
