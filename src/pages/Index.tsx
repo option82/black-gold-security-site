@@ -166,18 +166,34 @@ const Index = () => {
       if (stored) {
         setContent(prev => ({
           ...prev,
+          ...(stored.logo && { logo: stored.logo }),
           ...(stored.hero && { 
             heroTitle: stored.hero.title, 
             heroSubtitle: stored.hero.subtitle,
             heroImage: stored.hero.image,
             heroImageSize: stored.hero.imageSize
           }),
-          ...(stored.services && { services: stored.services }),
-          ...(stored.blog && { blogPosts: stored.blog }),
-          ...(stored.about && stored.about),
+          ...(stored.services && { 
+            servicesTitle: stored.services.title,
+            servicesSubtitle: stored.services.subtitle,
+            services: stored.services.items 
+          }),
+          ...(stored.blog && { 
+            blogTitle: stored.blog.title,
+            blogPosts: stored.blog.posts 
+          }),
+          ...(stored.about && { 
+            aboutTitle: stored.about.title, 
+            aboutDescription: stored.about.description, 
+            aboutStats: stored.about.stats 
+          }),
           ...(stored.portfolio && { portfolioTitle: stored.portfolio.title, portfolio: stored.portfolio.items }),
           ...(stored.cases && { casesTitle: stored.cases.title, cases: stored.cases.items }),
-          ...(stored.contacts && stored.contacts)
+          ...(stored.contacts && { 
+            contactsTitle: stored.contacts.title, 
+            contacts: stored.contacts.contacts 
+          }),
+          ...(stored.footer && { footerText: stored.footer.text })
         }));
       }
     };
@@ -188,18 +204,27 @@ const Index = () => {
     const timeoutId = setTimeout(async () => {
       try {
         await saveContent({
+          logo: content.logo,
           hero: { 
             title: content.heroTitle, 
             subtitle: content.heroSubtitle,
             image: content.heroImage,
             imageSize: content.heroImageSize
           },
-          services: content.services,
-          blog: content.blogPosts,
+          services: {
+            title: content.servicesTitle,
+            subtitle: content.servicesSubtitle,
+            items: content.services
+          },
+          blog: {
+            title: content.blogTitle,
+            posts: content.blogPosts
+          },
           about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
           portfolio: { title: content.portfolioTitle, items: content.portfolio },
           cases: { title: content.casesTitle, items: content.cases },
-          contacts: { title: content.contactsTitle, contacts: content.contacts }
+          contacts: { title: content.contactsTitle, contacts: content.contacts },
+          footer: { text: content.footerText }
         });
       } catch (error) {
         console.error('Error auto-saving content:', error);

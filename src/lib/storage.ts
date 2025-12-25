@@ -1,12 +1,16 @@
 import { contentStore } from './contentStore';
 
 export interface StoredContent {
+  logo?: string;
   hero: any;
-  services: any[];
-  blog: any[];
+  services: any;
+  blog: any;
   about: any;
+  portfolio: any;
+  cases: any;
   contacts: any;
-  lastUpdated: string;
+  footer: any;
+  lastUpdated?: string;
 }
 
 export const saveContent = async (content: Partial<StoredContent>): Promise<void> => {
