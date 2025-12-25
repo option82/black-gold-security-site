@@ -24,22 +24,22 @@ const PortfolioCasesSection = ({
 }: PortfolioCasesSectionProps) => {
   return (
     <>
-      <section id="portfolio" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
-        <div className="container mx-auto">
+      <section id="portfolio" className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
+        <div className="container mx-auto max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.portfolioTitle}
               onChange={(e) => setContent({ ...content, portfolioTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16 text-foreground uppercase tracking-wider">{content.portfolioTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 text-foreground uppercase tracking-wider break-words px-2">{content.portfolioTitle}</h2>
           )}
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {content.portfolio.map((item: any, index: number) => (
-              <Card key={index} className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
+              <Card key={index} className="p-4 sm:p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group flex flex-col">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('portfolio', index)}
@@ -69,30 +69,30 @@ const PortfolioCasesSection = ({
                   <Input
                     value={item.result}
                     onChange={(e) => updateItem('portfolio', index, 'result', e.target.value)}
-                    className="text-3xl font-bold text-primary mb-4 bg-transparent border-primary/30"
+                    className="text-2xl sm:text-3xl font-bold text-primary mb-3 lg:mb-4 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <div className="text-3xl font-bold text-gold mb-4">{item.result}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-gold mb-3 lg:mb-4">{item.result}</div>
                 )}
                 
                 {isAdminMode ? (
                   <Input
                     value={item.title}
                     onChange={(e) => updateItem('portfolio', index, 'title', e.target.value)}
-                    className="text-xl font-bold mb-3 bg-transparent border-primary/30"
+                    className="text-lg sm:text-xl font-bold mb-3 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold mb-3 break-words">{item.title}</h3>
                 )}
                 
                 {isAdminMode ? (
                   <Textarea
                     value={item.description}
                     onChange={(e) => updateItem('portfolio', index, 'description', e.target.value)}
-                    className="text-muted-foreground bg-muted"
+                    className="text-sm sm:text-base text-muted-foreground bg-muted flex-1"
                   />
                 ) : (
-                  <p className="text-muted-foreground">{item.description}</p>
+                  <p className="text-sm sm:text-base text-muted-foreground flex-1 break-words">{item.description}</p>
                 )}
               </Card>
             ))}
@@ -111,23 +111,23 @@ const PortfolioCasesSection = ({
         <div className="section-divider mt-12" />
       </section>
 
-      <section id="cases" className="py-20 px-4 relative">
+      <section id="cases" className="py-12 sm:py-16 lg:py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10 max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.casesTitle}
               onChange={(e) => setContent({ ...content, casesTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16 text-foreground uppercase tracking-wider">{content.casesTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 text-foreground uppercase tracking-wider break-words px-2">{content.casesTitle}</h2>
           )}
           
-          <div className="max-w-4xl mx-auto space-y-8">
+          <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 lg:space-y-8">
             {content.cases.map((caseItem: any, index: number) => (
-              <Card key={index} className="p-8 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
+              <Card key={index} className="p-4 sm:p-6 lg:p-8 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('cases', index)}
@@ -137,30 +137,30 @@ const PortfolioCasesSection = ({
                   </button>
                 )}
                 
-                <div className="flex items-start space-x-4">
-                  <Icon name="CheckCircle" className="text-gold flex-shrink-0" size={32} />
+                <div className="flex items-start space-x-3 sm:space-x-4">
+                  <Icon name="CheckCircle" className="text-gold flex-shrink-0" size={24} />
                   <div className="flex-1">
                     {isAdminMode ? (
                       <Input
                         value={caseItem.title}
                         onChange={(e) => updateItem('cases', index, 'title', e.target.value)}
-                        className="text-2xl font-bold mb-3 bg-transparent border-primary/30"
+                        className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 bg-transparent border-primary/30"
                       />
                     ) : (
-                      <h3 className="text-2xl font-bold mb-3">{caseItem.title}</h3>
+                      <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 break-words">{caseItem.title}</h3>
                     )}
                     
                     {isAdminMode ? (
                       <Textarea
                         value={caseItem.description}
                         onChange={(e) => updateItem('cases', index, 'description', e.target.value)}
-                        className="text-muted-foreground mb-4 bg-muted"
+                        className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 bg-muted"
                       />
                     ) : (
-                      <p className="text-muted-foreground mb-4">{caseItem.description}</p>
+                      <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 break-words">{caseItem.description}</p>
                     )}
                     
-                    <div className="flex items-center space-x-4 text-sm">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                       {isAdminMode ? (
                         <>
                           <Input

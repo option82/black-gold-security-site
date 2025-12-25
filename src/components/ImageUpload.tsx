@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
@@ -12,6 +12,7 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ currentImage, onImageUpload, label = 'Загрузить изображение', showPreview = true }: ImageUploadProps) => {
   const [preview, setPreview] = useState<string>(currentImage || '');
+  const inputId = useId();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,9 +47,9 @@ const ImageUpload = ({ currentImage, onImageUpload, label = 'Загрузить 
           accept="image/*"
           onChange={handleFileChange}
           className="hidden"
-          id={`image-upload-${Math.random()}`}
+          id={inputId}
         />
-        <label htmlFor={`image-upload-${Math.random()}`}>
+        <label htmlFor={inputId}>
           <Button
             type="button"
             size="sm"

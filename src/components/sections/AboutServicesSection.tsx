@@ -50,22 +50,22 @@ const AboutServicesSection = ({
 
   return (
     <>
-      <section id="about" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
-        <div className="container mx-auto">
+      <section id="about" className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
+        <div className="container mx-auto max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.aboutTitle}
               onChange={(e) => setContent({ ...content, aboutTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16 text-foreground uppercase tracking-wider">{content.aboutTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 text-foreground uppercase tracking-wider break-words px-2">{content.aboutTitle}</h2>
           )}
           
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 lg:mb-16">
             {content.aboutStats.map((stat: any, index: number) => (
-              <Card key={index} className="p-8 text-center cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
+              <Card key={index} className="p-6 sm:p-8 text-center cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group">
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('aboutStats', index)}
@@ -78,19 +78,19 @@ const AboutServicesSection = ({
                   <Input
                     value={stat.value}
                     onChange={(e) => updateItem('aboutStats', index, 'value', e.target.value)}
-                    className="text-5xl font-bold text-primary mb-4 text-center bg-transparent border-primary/30"
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-3 lg:mb-4 text-center bg-transparent border-primary/30"
                   />
                 ) : (
-                  <div className="text-5xl font-bold text-gold mb-4">{stat.value}</div>
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gold mb-3 lg:mb-4">{stat.value}</div>
                 )}
                 {isAdminMode ? (
                   <Input
                     value={stat.label}
                     onChange={(e) => updateItem('aboutStats', index, 'label', e.target.value)}
-                    className="text-xl text-muted-foreground text-center bg-transparent border-primary/30"
+                    className="text-base sm:text-lg lg:text-xl text-muted-foreground text-center bg-transparent border-primary/30"
                   />
                 ) : (
-                  <p className="text-xl text-muted-foreground">{stat.label}</p>
+                  <p className="text-base sm:text-lg lg:text-xl text-muted-foreground break-words">{stat.label}</p>
                 )}
               </Card>
             ))}
@@ -109,10 +109,10 @@ const AboutServicesSection = ({
             <Textarea
               value={content.aboutDescription}
               onChange={(e) => setContent({ ...content, aboutDescription: e.target.value })}
-              className="text-lg text-center text-muted-foreground max-w-3xl mx-auto bg-muted"
+              className="text-base sm:text-lg text-center text-muted-foreground max-w-3xl mx-auto bg-muted px-2"
             />
           ) : (
-            <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-center text-muted-foreground max-w-3xl mx-auto break-words px-2">
               {content.aboutDescription}
             </p>
           )}
@@ -120,28 +120,28 @@ const AboutServicesSection = ({
         </div>
       </section>
 
-      <section id="services" className="py-20 px-4 relative">
+      <section id="services" className="py-12 sm:py-16 lg:py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-radial from-blue-950/10 via-transparent to-transparent pointer-events-none" />
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10 max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.servicesTitle}
               onChange={(e) => setContent({ ...content, servicesTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-4 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-3 lg:mb-4 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-4 text-foreground uppercase tracking-wider">{content.servicesTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-3 lg:mb-4 text-foreground uppercase tracking-wider break-words px-2">{content.servicesTitle}</h2>
           )}
           
           {isAdminMode ? (
             <Input
               value={content.servicesSubtitle}
               onChange={(e) => setContent({ ...content, servicesSubtitle: e.target.value })}
-              className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto bg-transparent border-primary/30"
+              className="text-center text-muted-foreground mb-8 lg:mb-16 max-w-2xl mx-auto bg-transparent border-primary/30"
             />
           ) : (
-            <p className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-center text-muted-foreground mb-8 lg:mb-16 max-w-2xl mx-auto break-words px-2">
               {content.servicesSubtitle}
             </p>
           )}
@@ -156,10 +156,10 @@ const AboutServicesSection = ({
               strategy={rectSortingStrategy}
               disabled={!isAdminMode}
             >
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 {content.services.map((service: any, index: number) => (
                   <SortableCard key={`services-${index}`} id={`services-${index}`} disabled={!isAdminMode}>
-                    <Card className={`p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group ${isAdminMode ? 'cursor-move' : 'hover:scale-105 duration-300'}`}>
+                    <Card className={`p-4 sm:p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all relative group ${isAdminMode ? 'cursor-move' : 'hover:scale-105 duration-300'}`}>
                 {isAdminMode && (
                   <button
                     onClick={() => removeItem('services', index)}
@@ -210,20 +210,20 @@ const AboutServicesSection = ({
                   <Input
                     value={service.title}
                     onChange={(e) => updateItem('services', index, 'title', e.target.value)}
-                    className="text-xl font-bold mb-3 bg-transparent border-primary/30"
+                    className="text-lg sm:text-xl font-bold mb-3 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold mb-3 break-words">{service.title}</h3>
                 )}
                 
                 {isAdminMode ? (
                   <Textarea
                     value={service.description}
                     onChange={(e) => updateItem('services', index, 'description', e.target.value)}
-                    className="text-muted-foreground bg-muted"
+                    className="text-sm sm:text-base text-muted-foreground bg-muted"
                   />
                 ) : (
-                  <p className="text-muted-foreground">{service.description}</p>
+                  <p className="text-sm sm:text-base text-muted-foreground break-words">{service.description}</p>
                 )}
                     </Card>
                   </SortableCard>

@@ -166,10 +166,17 @@ const Index = () => {
       if (stored) {
         setContent(prev => ({
           ...prev,
-          ...(stored.hero && { heroTitle: stored.hero.title, heroSubtitle: stored.hero.subtitle }),
+          ...(stored.hero && { 
+            heroTitle: stored.hero.title, 
+            heroSubtitle: stored.hero.subtitle,
+            heroImage: stored.hero.image,
+            heroImageSize: stored.hero.imageSize
+          }),
           ...(stored.services && { services: stored.services }),
           ...(stored.blog && { blogPosts: stored.blog }),
           ...(stored.about && stored.about),
+          ...(stored.portfolio && { portfolioTitle: stored.portfolio.title, portfolio: stored.portfolio.items }),
+          ...(stored.cases && { casesTitle: stored.cases.title, cases: stored.cases.items }),
           ...(stored.contacts && stored.contacts)
         }));
       }
@@ -181,10 +188,17 @@ const Index = () => {
     const timeoutId = setTimeout(async () => {
       try {
         await saveContent({
-          hero: { title: content.heroTitle, subtitle: content.heroSubtitle },
+          hero: { 
+            title: content.heroTitle, 
+            subtitle: content.heroSubtitle,
+            image: content.heroImage,
+            imageSize: content.heroImageSize
+          },
           services: content.services,
           blog: content.blogPosts,
           about: { title: content.aboutTitle, description: content.aboutDescription, stats: content.aboutStats },
+          portfolio: { title: content.portfolioTitle, items: content.portfolio },
+          cases: { title: content.casesTitle, items: content.cases },
           contacts: { title: content.contactsTitle, contacts: content.contacts }
         });
       } catch (error) {

@@ -68,24 +68,24 @@ const BlogContactsSection = ({
 
   return (
     <>
-      <section id="blog" className="py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
-        <div className="container mx-auto">
+      <section id="blog" className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
+        <div className="container mx-auto max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.blogTitle}
               onChange={(e) => setContent({ ...content, blogTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16 text-foreground uppercase tracking-wider">{content.blogTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 text-foreground uppercase tracking-wider break-words px-2">{content.blogTitle}</h2>
           )}
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {content.blogPosts.map((post: any, index: number) => (
               <Card 
                 key={index} 
-                className="p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group"
+                className="p-4 sm:p-6 cyber-card hover:shadow-[0_0_40px_rgba(244,208,63,0.2)] transition-all cursor-pointer relative group"
                 onClick={() => !isAdminMode && handlePostClick(index)}
               >
                 {isAdminMode && (
@@ -111,10 +111,10 @@ const BlogContactsSection = ({
                   <Input
                     value={post.title}
                     onChange={(e) => updateItem('blogPosts', index, 'title', e.target.value)}
-                    className="text-xl font-bold mb-3 bg-transparent border-primary/30"
+                    className="text-lg sm:text-xl font-bold mb-3 bg-transparent border-primary/30"
                   />
                 ) : (
-                  <h3 className="text-xl font-bold mb-3">{post.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-bold mb-3 break-words">{post.title}</h3>
                 )}
                 
                 {isAdminMode ? (
@@ -160,24 +160,24 @@ const BlogContactsSection = ({
         <div className="section-divider mt-12" />
       </section>
 
-      <section id="contacts" className="py-20 px-4 relative">
+      <section id="contacts" className="py-12 sm:py-16 lg:py-20 px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-blue-900/5 pointer-events-none" />
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10 max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
             <Input
               value={content.contactsTitle}
               onChange={(e) => setContent({ ...content, contactsTitle: e.target.value })}
-              className="text-4xl font-bold text-center mb-16 bg-transparent border-primary/30"
+              className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 bg-transparent border-primary/30"
             />
           ) : (
-            <h2 className="text-4xl font-bold text-center mb-16 text-foreground uppercase tracking-wider">{content.contactsTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 lg:mb-16 text-foreground uppercase tracking-wider break-words px-2">{content.contactsTitle}</h2>
           )}
           
-          <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12 max-w-4xl mx-auto">
+            <div className="space-y-4 sm:space-y-6">
               {content.contacts.map((contact: any, index: number) => (
-                <div key={index} className="flex items-start space-x-4 relative group">
+                <div key={index} className="flex items-start space-x-3 sm:space-x-4 relative group">
                   {isAdminMode && (
                     <button
                       onClick={() => removeItem('contacts', index)}
@@ -212,20 +212,20 @@ const BlogContactsSection = ({
                       <Input
                         value={contact.title}
                         onChange={(e) => updateItem('contacts', index, 'title', e.target.value)}
-                        className="font-bold mb-1 bg-transparent border-primary/30"
+                        className="text-sm sm:text-base font-bold mb-1 bg-transparent border-primary/30"
                       />
                     ) : (
-                      <h3 className="font-bold mb-1">{contact.title}</h3>
+                      <h3 className="text-sm sm:text-base font-bold mb-1 break-words">{contact.title}</h3>
                     )}
                     
                     {isAdminMode ? (
                       <Input
                         value={contact.value}
                         onChange={(e) => updateItem('contacts', index, 'value', e.target.value)}
-                        className="text-muted-foreground bg-transparent border-primary/30"
+                        className="text-sm sm:text-base text-muted-foreground bg-transparent border-primary/30"
                       />
                     ) : (
-                      <p className="text-muted-foreground">{contact.value}</p>
+                      <p className="text-sm sm:text-base text-muted-foreground break-words">{contact.value}</p>
                     )}
                   </div>
                 </div>
@@ -239,8 +239,8 @@ const BlogContactsSection = ({
               )}
             </div>
             
-            <Card className="p-6 cyber-card">
-              <h3 className="text-xl font-bold mb-4 text-gold">Напишите нам</h3>
+            <Card className="p-4 sm:p-6 cyber-card">
+              <h3 className="text-lg sm:text-xl font-bold mb-4 text-gold">Напишите нам</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input 
                   placeholder="Ваше имя" 
