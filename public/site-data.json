@@ -4,7 +4,7 @@
     "title": "Защита вашего бизнеса — наша профессия",
     "subtitle": "Комплексные решения по аутсорсингу службы безопасности для компаний любого масштаба",
     "image": "",
-    "imageSize": 100
+    "imageSize": 400
   },
   "about": {
     "title": "О компании",
@@ -128,11 +128,7 @@
     "contacts": [
       { "icon": "MapPin", "title": "Адрес", "value": "г.Новокузнецк" },
       { "icon": "Phone", "title": "Телефон", "value": "+7 983 252 3222" },
-      {
-        "icon": "Mail",
-        "title": "Email",
-        "value": " info@zaschitabusinessa.ru "
-      }
+      { "icon": "Mail", "title": "Email", "value": " info@zaschitabusinessa.ru " }
     ]
   },
   "footer": {
