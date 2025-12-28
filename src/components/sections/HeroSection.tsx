@@ -22,7 +22,7 @@ const HeroSection = ({ content, setContent, isAdminMode, scrollToSection }: Hero
       <div className="container relative z-10 max-w-7xl my-0 mx-0 px-0">
         <div className="section-backdrop py-0 px-5
 ">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 ">
           <div className="space-y-6 lg:space-y-8 animate-fade-in">
             {isAdminMode ? (
               <Textarea
