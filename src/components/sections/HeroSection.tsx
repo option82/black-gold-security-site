@@ -17,7 +17,7 @@ const HeroSection = ({ content, setContent, isAdminMode, scrollToSection }: Hero
   const heroImageSize = content.heroImageSize || 100;
 
   return (
-    <section id="home" className="pt-32 pb-20 px-4 min-h-screen flex items-center tech-pattern relative">
+    <section id="home" className="sm:py-16 lg:py-20 px-4 from-transparent via-card/30 to-transparent tech-pattern bg-[#000000] my-[130px] py-[52px]">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-transparent to-blue-900/10 pointer-events-none" />
       <div className="container mx-auto relative z-10 max-w-7xl">
         <div className="section-backdrop">
