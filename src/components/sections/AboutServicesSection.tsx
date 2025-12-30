@@ -50,7 +50,7 @@ const AboutServicesSection = ({
 
   return (
     <>
-      <section id="about" className="py-12 sm:py-16 lg:py-20 px-4 from-transparent via-card/30 to-transparent tech-pattern bg-transparent">
+      <section id="about" className="py-12 sm:py-16 lg:py-20 px-4 bg-gradient-to-b from-transparent via-card/30 to-transparent tech-pattern">
         <div className="container mx-auto max-w-7xl">
           <div className="section-backdrop">
           {isAdminMode ? (
