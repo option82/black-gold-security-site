@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "Экспорт данных из БД",
+      "method": "GET",
+      "path": "/?direction=db-to-json",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Импорт данных в БД",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "data": {
+          "test_key": {"value": "test"}
+        }
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

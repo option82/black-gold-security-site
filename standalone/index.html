@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Защита Бизнеса - Аутсорсинг службы безопасности</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0a0a0a',
+                        foreground: '#f5f5f5',
+                        card: '#111111',
+                        'card-foreground': '#f5f5f5',
+                        primary: '#d4af37',
+                        'primary-foreground': '#0a0a0a',
+                        secondary: '#1a1a1a',
+                        'secondary-foreground': '#f5f5f5',
+                        muted: '#1a1a1a',
+                        'muted-foreground': '#999999',
+                        accent: '#d4af37',
+                        'accent-foreground': '#0a0a0a',
+                        destructive: '#ef4444',
+                        border: '#262626',
+                        input: '#1a1a1a',
+                        ring: '#d4af37',
+                        gold: '#d4af37'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-foreground antialiased">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent border-b border-transparent">
+        <div class="container mx-auto px-4 py-2">
+            <div class="flex items-center justify-between py-0 my-0 mx-0 px-[33px]">
+                <div class="flex items-center relative group">
+                    <img id="header-logo" src="" alt="Logo" class="h-20 object-contain">
+                </div>
+                
+                <nav id="desktop-menu" class="hidden lg:flex items-center space-x-8"></nav>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 hover:text-gold transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 hidden">
+        <div class="absolute inset-0 bg-black/50" id="mobile-menu-overlay"></div>
+        <div id="mobile-menu-content" class="absolute right-0 top-0 h-full w-[300px] bg-card shadow-2xl transform translate-x-full transition-transform duration-300">
+            <nav class="flex flex-col space-y-4 mt-20 px-6"></nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 px-4">
+            <div class="container mx-auto max-w-7xl">
+                <div class="text-center space-y-6">
+                    <h1 id="hero-title" class="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-gold to-primary bg-clip-text text-transparent animate-fade-in"></h1>
+                    <p id="hero-subtitle" class="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-delay"></p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-delay-2">
+                        <button onclick="scrollToSection('contacts')" class="px-8 py-3 bg-gradient-to-r from-primary to-gold text-background font-semibold rounded-lg hover:shadow-lg hover:shadow-gold/50 transition-all">
+                            Связаться с нами
+                        </button>
+                        <button onclick="scrollToSection('services')" class="px-8 py-3 border border-primary text-primary font-semibold rounded-lg hover:bg-primary/10 transition-all">
+                            Наши услуги
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-4">
+            <div class="container mx-auto max-w-7xl">
+                <h2 id="about-title" class="text-3xl md:text-4xl font-bold text-center mb-8"></h2>
+                <p id="about-description" class="text-lg text-muted-foreground text-center max-w-4xl mx-auto mb-16"></p>
+                <div id="about-stats" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 px-4 bg-card/30">
+            <div class="container mx-auto max-w-7xl">
+                <div class="text-center mb-16">
+                    <h2 id="services-title" class="text-3xl md:text-4xl font-bold mb-4"></h2>
+                    <p id="services-subtitle" class="text-lg text-muted-foreground"></p>
+                </div>
+                <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 px-4">
+            <div class="container mx-auto max-w-7xl">
+                <h2 id="portfolio-title" class="text-3xl md:text-4xl font-bold text-center mb-16"></h2>
+                <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Cases Section -->
+        <section id="cases" class="py-20 px-4 bg-card/30">
+            <div class="container mx-auto max-w-7xl">
+                <h2 id="cases-title" class="text-3xl md:text-4xl font-bold text-center mb-16"></h2>
+                <div id="cases-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="py-20 px-4">
+            <div class="container mx-auto max-w-7xl">
+                <h2 id="blog-title" class="text-3xl md:text-4xl font-bold text-center mb-16"></h2>
+                <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Contacts Section -->
+        <section id="contacts" class="py-20 px-4 bg-card/30">
+            <div class="container mx-auto max-w-7xl">
+                <h2 id="contacts-title" class="text-3xl md:text-4xl font-bold text-center mb-16"></h2>
+                <div id="contacts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-card/50 to-transparent py-6 sm:py-8 px-4 border-t border-primary/20">
+        <div class="container mx-auto max-w-7xl">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-2">
+                    <img id="footer-logo" src="" alt="Logo" class="h-16 sm:h-20 w-auto object-contain">
+                </div>
+                <p id="footer-text" class="text-muted-foreground text-xs sm:text-sm text-center md:text-left"></p>
+                <button id="admin-btn" class="text-xs text-muted-foreground/50 hover:text-gold transition-colors">admin</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Auth Dialog -->
+    <div id="auth-dialog" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-black/80" id="auth-overlay"></div>
+        <div class="relative bg-card rounded-lg p-6 w-full max-w-md mx-4 shadow-2xl border border-primary/20">
+            <h2 class="text-2xl font-bold mb-4">Вход в админ-панель</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Пароль</label>
+                    <input id="auth-password" type="password" placeholder="admin123" class="w-full px-4 py-2 bg-muted rounded-lg border border-border focus:border-primary focus:outline-none">
+                </div>
+                <button id="auth-submit" class="w-full px-6 py-3 bg-gradient-to-r from-primary to-gold text-background font-semibold rounded-lg hover:shadow-lg transition-all">
+                    Войти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="fixed bottom-4 right-4 z-50 hidden">
+        <div class="bg-primary text-background rounded-lg p-4 shadow-2xl max-w-xs">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="lock" class="w-5 h-5"></i>
+                        <span class="font-semibold">Редактирование</span>
+                    </div>
+                    <button id="admin-exit" class="px-3 py-1 bg-background text-primary rounded text-sm font-medium">
+                        Выход
+                    </button>
+                </div>
+                <div class="text-xs space-y-1 opacity-90">
+                    <p>• Наведите на элемент для редактирования</p>
+                    <p>• Изменения сохраняются в localStorage</p>
+                </div>
+                <div class="pt-2 border-t border-background/20 space-y-2">
+                    <button id="export-btn" class="w-full px-3 py-2 bg-background text-primary rounded text-xs font-medium flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Скачать изменения
+                    </button>
+                    <div class="text-[10px] opacity-70 leading-tight space-y-1 bg-background/10 p-2 rounded">
+                        <p class="font-semibold text-[11px] opacity-100">⚠️ Важно!</p>
+                        <p>Изменения сохраняются только в вашем браузере</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

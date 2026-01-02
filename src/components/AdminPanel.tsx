@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 import { downloadContentBackup, exportContent } from '@/lib/storage';
+import SyncManager from '@/components/SyncManager';
 
 interface AdminPanelProps {
   showAuthDialog: boolean;
@@ -112,33 +113,32 @@ git push
                 <p>• Загружайте изображения прямо с ПК</p>
               </div>
               
-              <div className="pt-2 border-t border-background/20 space-y-2">
-                <div className="text-xs font-semibold opacity-90">Сохранение изменений</div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleExport}
-                  className="bg-background text-primary w-full text-xs"
-                >
-                  <Icon name="Download" size={14} className="mr-1" />
-                  Скачать изменения
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleCopyInstructions}
-                  className="bg-background text-primary w-full text-xs"
-                >
-                  <Icon name="Copy" size={14} className="mr-1" />
-                  Копировать инструкцию
-                </Button>
-                <div className="text-[10px] opacity-70 leading-tight space-y-1 bg-background/10 p-2 rounded">
-                  <p className="font-semibold text-[11px] opacity-100">⚠️ Важно!</p>
-                  <p>1. Нажмите "Скачать изменения"</p>
-                  <p>2. Замените файл public/site-data.json</p>
-                  <p>3. Закоммитьте в GitHub</p>
-                  <p>4. После деплоя все увидят изменения</p>
-                  <p className="pt-1 italic">Без коммита изменения видны только в вашем браузере!</p>
+              <div className="pt-2 border-t border-background/20 space-y-3">
+                <div className="text-xs font-semibold opacity-90">Управление данными</div>
+                
+                <div className="space-y-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleExport}
+                    className="bg-background text-primary w-full text-xs"
+                  >
+                    <Icon name="Download" size={14} className="mr-1" />
+                    Скачать изменения
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleCopyInstructions}
+                    className="bg-background text-primary w-full text-xs"
+                  >
+                    <Icon name="Copy" size={14} className="mr-1" />
+                    Копировать инструкцию
+                  </Button>
+                </div>
+
+                <div className="pt-2">
+                  <SyncManager />
                 </div>
               </div>
             </div>
